@@ -1,4 +1,11 @@
 # Hale_Core
 
-this repository has collected Hale's core professional codes and learning records
-这个仓库存放着Hale的计科类核心专业课的学习记录以及代码
+this repository has collected Hale's core professional codes and learning records.
+
+Due to his poor academic abilities,
+
+There must be something wrong
+
+If you find something , please contact with me
+
+ORZ!!!
