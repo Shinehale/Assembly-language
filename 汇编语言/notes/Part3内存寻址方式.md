@@ -77,7 +77,7 @@ mov ax, [bx][si].200
 
 - 不同寻址方式对比
 
-![1652183835111](C:\Users\hale\Desktop\能力提升\Hale_Core\汇编语言\note\7-8对比.png)
+![7-8对比](Hale_Core\汇编语言\notes\7-8对比.png)
 
 - 一点小技巧： 在需要咋村数据的时候，我们都应该使用栈来完成存储
 
