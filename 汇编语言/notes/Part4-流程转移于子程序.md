@@ -161,9 +161,111 @@
 
 
 
+- 转移地址在寄存器中的`call`指令
+
+  指令格式：`call 16位reg`
+
+  相当于进行：
+
+  ```assembly
+  push IP
+  jmp 16位reg
+  ```
+
+  
+
+- 转移地址在内存中的`call`指令
+
+  包括两种：
+
+  1. `call word ptr 内存单元地址`
+  2. `call dword ptr 内存地址单元`
 
 
 
+- `call`和`ret`实现子程序控制的框架如下：
+
+```assembly
+assume cs:code
+code segment
+main:	:
+		:
+		
+		call sub1
+		:
+		:
+		mov ax, 4c00h
+		int 21h
+		
+sub1:	:
+		:
+		call sub2
+		:
+		:
+		ret
+		
+sub2:	:
+		:
+		:
+		ret
+code ends
+end main
+```
 
 
+
+- `mul`指令
+
+  1. 两个相乘的数，要么都是8位，要么都是16位，如果是8位，一个默认在`AL`中，另一个放在8位`reg`或内存字节单元中；如果都是16位，一个默认在`AX`中，另一个存在16位`reg`或内存单元中
+  2. 结果：如果是8位乘法，结果默认放在`AX`中；如果是16位乘法，结果**高位**默认在`DX`内存放，**低位`AX`**中存放。
+
+  格式如下：
+
+  ```assembly
+  mul reg 
+  mul 内存单元
+  ```
+
+  
+
+- 模块化程序设计
+
+  本质上就是在使用`call`和`ret`完成整个程序设计并且对于代码一定要有完整的说明，以便于其他人使用
+
+  ```assembly
+  ;说明：计算N的3次方
+  ;参数：（bx）= N
+  ;结果：(dx:ax) = N^3
+  
+  cube:	mov ax, bx
+  		mul bx
+  		mul bx
+  		ret
+  ```
+
+  
+
+- 寄存器冲突问题
+
+  最简洁的方法就是在子程序的开始将子程序中所有用到的寄存器中的内容全部保存起来，在子程序返回前再恢复。可以用栈来保存寄存器中的内容。
+
+  从而编写子程序的标准框架如下：
+
+  ```assembly
+  capital:	push cx
+  			push si
+  			
+  change:		mov cl, [si]
+  			mov ch, 0
+  			jcxz ok
+  			and byte ptr [si], 11011111b
+  			inc si
+  			jmp short change
+  			
+  ok:			pop si
+  			pop cx
+  			ret
+  ```
+
+  **注意寄存器出栈和入栈的顺序**
 
