@@ -36,12 +36,12 @@ While there is a man m who is free and hasn’t proposed to every woman
 		to whom m has not yet proposed
 	If w is free then
 		(m, w) become engaged
-	Else w is currently engaged to m
-		If w prefers m to m then
+	Else w is currently engaged to m’
+		If w prefers m‘ to m then
 			m remains free
-		Else w prefers m to m
+		Else w prefers m to m’
 			(m, w) become engaged
-			m becomes free
+			m‘ becomes free
 		Endif
 	Endif
 Endwhile
