@@ -13,7 +13,7 @@ data ends
 code segment
 main:	mov dh, 8
 	mov dl, 3
-	mov cl, 10011001B
+	mov cl, 11011111B
 	mov ax, data
 	mov ds, ax
 	mov si, 0
@@ -28,9 +28,6 @@ show_str:
 	push di
 	push cx 		;将用到的寄存器缓存
 
-
-
-
 	mov ax, 0b800h
 	mov es, ax
 	mov al, 160
@@ -44,21 +41,23 @@ show_str:
 	mov bl, cl 	;将cl颜色转移到bl中
 
 	mov cx, 128
-s:	push cx
+for_show:
+	push cx
 	mov cl, ds:[si]
 	mov ch, 0
-	jcxz back
+	jcxz over_show
 	mov es:[di], cx
 	mov es:[di+1], bl
 	add di, 2
 	add si, 1
 	pop cx
-	loop s
+	loop for_show
 
 
-back:	pop cx
+over_show:
 	pop cx
-	pop si
+	pop cx
+	pop di
 	pop es 
 	pop ax 		;将用完的寄存器数据还原
 	ret

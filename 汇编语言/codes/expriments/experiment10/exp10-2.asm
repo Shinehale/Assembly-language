@@ -12,8 +12,8 @@ data ends
 code segment 
 main:	mov ax, data
 	mov ds, ax
-	mov ax, 4240h
-	mov dx, 00fh
+	mov ax, 21566
+	mov dx, 48103
 	mov cx, 0ah
 	call divdw
 
