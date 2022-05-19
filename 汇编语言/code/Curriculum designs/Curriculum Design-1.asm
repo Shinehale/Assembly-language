@@ -6,7 +6,7 @@
 ; 将人员数写入render表中，将薪资数写入render表中
 ; 将除数写入render表中，最终一次完成渲染
 
-assume ds: data, cs: code,ss: stack, es: table
+assume ds: data, cs: code,ss: stack, es: render
 
 data segment
 	db '1975','1976','1977','1978','1979','1980','1981','1982','1983' 
@@ -38,8 +38,151 @@ render ends
 code segment
 main:	mov ax, data
 	mov ds, ax
+	mov ax, stack
+	mov ss, ax
+	mov sp, 128
+
+	call renderYear
+	call calculateRemains
+
 	mov ax, 4c00h
 	int 21h
+
+renderYear:
+	push cx 
+	push ax 
+	push es 
+	push si
+	push bx
+	push dx
+	push di 		;开头缓存用到的寄存器数据
+
+	mov ax, render
+	mov es, ax
+	mov si, 0 	;将目标渲染首地址写入es:[si]
+	mov di, 0
+
+	mov cx, 21
+	mov dx, 0
+for_RY:
+	mov al, ds:[di]
+	sub al, 30h
+	mov es:[si+1], al 	;第一个字符
+
+	mov al, ds:[di+1]
+	sub al, 30h
+	mov es:[si+2], al 	;第二个字符
+
+	mov al, ds:[di+2]
+	sub al, 30h
+	mov es:[si+3], al 	;第三个字符
+
+	mov al, ds:[di+3]
+	sub al, 30h
+	mov es:[si+4], al 	;第四个字符
+
+	add di, 4
+	add si, 32
+
+	loop for_RY
+
+
+
+
+	pop di 
+	pop dx 
+	pop bx 
+	pop si
+	pop es 
+	pop ax 
+	pop cx 		;还原用到寄存器
+	ret
+
+calculateRemains:
+	push cx 
+	push ax 
+	push es 
+	push si
+	push bx
+	push dx
+	push di 		;开头缓存用到的寄存器数据
+
+	mov ax, data2
+	mov es, ax
+	mov si, 0 
+	mov ax, data
+	mov ds, ax
+	mov di, 84
+
+	mov cx, 21
+	mov bx, 168
+
+for_CalRems:
+	push cx 
+	mov dx, ds:[di+2]
+	mov ax, ds:[di]
+	add di, 4
+	mov cx, ds:[bx]
+	add bx, 2
+	call divdw
+	mov es:[si], ax
+	add si, 2
+	pop cx
+	loop for_CalRems 		;完成计算商的过程
+
+
+	pop di 
+	pop dx 
+	pop bx 
+	pop si
+	pop es 
+	pop ax 
+	pop cx 		;还原用到寄存器
+	ret
+
+
+divdw:	
+	push bx 
+	push bp
+
+	mov bp, cx 	;这样做感觉会有风险
+	mov cx, 8
+	mov bx, 0
+s:	push word ptr ds:[bx]
+	add bx, 2
+	loop s 		;将用到的存储空间释放
+
+	mov cx, bp
+	mov ds:[0], ax 	;ds:[0]存储原来被除数低16位
+	mov ds:[2], dx 	;ds:[0]存储原来被除数高16位
+	mov ds:[4], cx 	;ds:[0]存储原来除数
+
+	mov ax, ds:[2]
+	mov dx, 0
+	div cx
+	mov ds:[6], ax 	;ds:[6]存储int(H/N)
+	mov ds:[8], dx 	;ds:[8]存储rem(H/N)
+
+	mov dx, ds:[8]
+	mov ax, ds:[0]
+	div cx
+
+	mov cx, dx 	;将余数放入cx中
+	mov dx, ds:[6]	;将结果高16位放入dx中，而结果中低16位就是除法得到的结果
+
+
+	mov bp, cx
+	mov bx, 14
+	mov cx, 8
+s_over:	pop word ptr ds:[bx]
+	add bx, -2
+	loop s_over
+	mov cx, bp
+
+	pop bp 
+	pop bx 
+	ret
+
 
 code ends
 end main
