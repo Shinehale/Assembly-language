@@ -6,6 +6,6 @@ Due to his poor academic abilities,
 
 There must be something wrong
 
-If you find something , please contact with me
+If you find any , please contact with me
 
 `ORZ!!!`
