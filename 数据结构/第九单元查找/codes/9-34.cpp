@@ -46,7 +46,7 @@ int main(){
 	}
 	int tar; cin >> tar;
 	solve( tar );
-	cout<< sum<<endl;
+	cout<< sum<<endl; 
 	return 0;
 }
 /*
