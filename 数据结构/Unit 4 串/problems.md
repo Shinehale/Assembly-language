@@ -17,3 +17,5 @@
 5. `t=THEESE ARE BOOKSv=YXYu=XWXWXW`
 
 6. `Relpace(s,'Y','+');` `Replace(s,'+*','*Y')`             
+
+7. ![](img/7-8.jpg)
