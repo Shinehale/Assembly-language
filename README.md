@@ -1,4 +1,4 @@
-# Hale_Core
+# Hale_Core_freshman
 
 this repository has collected Hale's core professional codes and learning records at the freshman
 
