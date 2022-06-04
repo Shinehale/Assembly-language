@@ -1,6 +1,6 @@
 # Hale_Core
 
-this repository has collected Hale's core professional codes and learning records.
+this repository has collected Hale's core professional codes and learning records at the freshman
 
 Due to his poor academic abilities,
 
