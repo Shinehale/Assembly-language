@@ -1,14 +1,14 @@
 assume cs:code,ds:data,ss:stack
 
 stack segment
- db 128 dup (0)
+ 	db 128 dup (0)
 stack ends
 
 data segment
- begin        db 512 dup (0)
- begin_boot   db 512 dup (0)
-              db 512 dup (0)
-              db 512 dup (0)
+begin        db 512 dup (0)
+begin_boot   db 512 dup (0)
+             db 512 dup (0)
+             db 512 dup (0)
 data ends
 
 code segment
@@ -23,7 +23,7 @@ start:
 
        mov ax,4c00h
        int 21h
-;---------------------------------
+
 introduce:                     ;引导程序，将程序复制到0:7c00处，
         mov bx,0
 	mov ss,bx
@@ -37,7 +37,7 @@ introduce:                     ;引导程序，将程序复制到0:7c00处，
 	mov bx,7e00h           ;设置cs：ip为0:7e00h执行Boot程序
 	push bx
 	retf
-;-----------------------------
+
 copy_Boot_fromdisk:
         mov bx,0
 	mov es,bx
@@ -52,8 +52,8 @@ copy_Boot_fromdisk:
 	int 13h
 
 	ret
-;----------------------------------
- save_old_int9:
+
+save_old_int9:
        mov bx,0
        mov es,bx
 
@@ -62,10 +62,10 @@ copy_Boot_fromdisk:
        push es:[9*4+2]
        pop es:[202h]
        ret
-;-----------------------
+
        db 512 dup (0)
 introduce_end:nop
- ;=================================
+
 copy_introduce:
        mov bx,cs
        mov es,bx
@@ -79,7 +79,7 @@ copy_introduce:
        mov ah,3
        int 13h
        ret
-;----------------------
+
 copy_boot_disk:
        mov bx,cs
        mov es,bx
@@ -93,10 +93,10 @@ copy_boot_disk:
        mov ah,3
        int 13h
        ret
-;--------------------------------
+
 Boot:
        jmp Boot_start
-;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 option1   db '(1) reset pc',0
 option2   db '(2) start system',0
 option3   db '(3) clock',0
@@ -108,8 +108,7 @@ address_option   dw offset option1 - offset Boot + 7e00h
                  dw offset option4 - offset Boot + 7e00h
  timestyle   db '00/00/00 00:00:00',0
  timeadress  db 9,8,7,4,2,0
- string_stack   db 12 dup ('0'),0
-;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx     
+ string_stack   db 12 dup ('0'),0   
 
 Boot_start:
         call init_reg
@@ -120,7 +119,7 @@ Boot_start:
         
 	mov ax,4c00h
         int 21h
-;-----------------------
+
 choose_option:
         call clear_buff
         
@@ -161,7 +160,7 @@ choose4:mov di,160*3
         mov byte ptr es:[di],'4'
 	call set_clock
         jmp choose_option
-;-----------------------
+
 start_old_system:
         mov bx,0
 	mov es,bx
@@ -180,7 +179,7 @@ start_old_system:
 	mov bx,7c00h
 	push bx
 	retf
-;------------------------
+
 set_clock:
         call clear_string_stack
         call show_string_stack
@@ -188,7 +187,7 @@ set_clock:
 	call set_time
 
 	ret
-;--------------------
+
 set_time:
         mov bx,offset timeadress - offset Boot + 7e00h
 	mov si,offset string_stack - offset Boot +7e00h
@@ -211,7 +210,7 @@ settime:
 	inc bx
 	loop settime
         ret
-;-------------------------
+
 get_string:
         mov si,offset string_stack - offset Boot + 7e00h
 	mov bx,0
@@ -239,7 +238,7 @@ isbackspace:
         call char_pop
 	call show_string_stack
         jmp getstring
-;--------------------------
+
 char_pop:
         cmp bx,0
 	je charpopret
@@ -247,7 +246,7 @@ char_pop:
 	mov byte ptr ds:[si+bx],'0'
 charpopret:
         ret
-;-------------------------
+
 char_push:
         cmp bx,11
 	ja charpushret
@@ -255,7 +254,7 @@ char_push:
 	inc bx
 charpushret:
         ret
-;-------------------
+
 show_string_stack:
         push si
 	push di
@@ -265,7 +264,7 @@ show_string_stack:
 	pop di
 	pop si
 	ret
-;--------------------
+
 clear_string_stack:
         push bx
 	push cx
@@ -288,7 +287,7 @@ clearstringstack:
 	pop cx
 	pop bx
 	ret
-;----------------------
+
 show_clock:
         call show_style
 	call set_new_int9
@@ -321,13 +320,13 @@ showdate:
 show_clockret:
        call set_old_int9
        ret
-;----------------------
+
 show_style:
        mov si,offset timestyle - offset Boot + 7e00h
        mov di,160*20
        call showstr
        ret
-;--------------------
+
 set_old_int9:
        push bx
        push es
@@ -344,7 +343,7 @@ set_old_int9:
        pop es
        pop bx
        ret
-;---------------------
+
 set_new_int9:
        push bx
        push es
@@ -360,7 +359,7 @@ set_new_int9:
        pop es
        pop bx
        ret
-;------------------------
+
 newint9:
        push ax
        call clear_buff
@@ -383,7 +382,7 @@ inesc:
        add sp,4
        popf
        jmp show_clockret
-   ;----------------------
+
 change_time_color:
        push bx
        push cx
@@ -401,7 +400,7 @@ change_time_colors:
        pop es
        pop cx
        pop bx     
-;-------------------------
+
 clear_buff:
         mov ah,1
 	int 16h
@@ -409,9 +408,11 @@ clear_buff:
 	mov ah,0
 	int 16h
 	jmp clear_buff
+
+
 clearbuffret:
 	ret
-;---------------------
+
 show_option:
         mov bx,offset address_option - offset Boot + 7e00h
         mov cx,4
@@ -423,7 +424,7 @@ show_options:
 	add bx,2
 	loop show_options
 	ret
-;------------------------------
+
 showstr:
         push cx  
 	push di
@@ -440,7 +441,7 @@ showstrret:
         pop cx
 	ret
 
-;----------------
+
 init_reg:
        mov bx,0b800h
        mov es,bx
@@ -448,7 +449,7 @@ init_reg:
        mov bx,0
        mov ds,bx
        ret
-;------------------  
+
 clear_screen:
        mov bx,0
        mov dx,0700h   ;清屏中对字符属性设置应该为07h，而不是0
@@ -458,7 +459,7 @@ clearscreen:
        add bx,2
        loop clearscreen
        ret
-;-----------------------
+
        db 512 dup (0)
 Boot_end:
        nop
