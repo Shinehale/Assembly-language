@@ -61,3 +61,4 @@ Return the set S of engaged pairs
 
 1. **Every execution of the G-S algorithm results in the set S∗.** 
 2. **In the stable matching S∗, each woman is paired with her worst valid partner** 
+
