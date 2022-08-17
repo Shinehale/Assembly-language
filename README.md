@@ -1,44 +1,20 @@
-## Interface
+## preface
 
-> this folder has collected some codes
+> This folder responds to the tesxbook 《汇编语言 (第三版)》 王爽
 >
-> these code correspond to the book as follows:
+> It contains my notes and codes.
 >
-> 《数据结构题集(C语言版)》
+> Because of the lack of  knowledge of the Virtual system
 >
-> but according to some reasons 
+> So the left codes about experiment 17 can not be cultivated
 >
-> the codes written in the C++
+> If I have that time, or maybe some day I have the grasp of the Virtual system and just at that time I remember this folder and the left Curriculum Designs Two .
 >
-> because of my writing style.
+> I will finish it at that day.
+>
+> But as the matter of the fact , I have poor memory so it will not be finished.
+>
+> If you have any problems or find any faults in the code, Please contact with me.
+>
+> By  Shine_hale 22.6.4
 
-
-
-## More explainations
-
-> The textbook correspond to 《数据结构（C语言版）》
->
-> which is the textbook of EE and CS schedle in HUST.
->
-> But I also refer to some other textbooks 
->
-> Maybe the codes will be updated in another repository
->
-> Maybe it will never appear, but I think it is a very important part of the core classes.
-
-
-
-> Due to the limits of time
->
-> So the Unit 8 . Unit 11 Unit 12 will be rewritten in the operating system
->
-> thus it will not appear in this folder 
->
-> as the same reason only thee (!important) and 4-5 test will be displayed.
-
-
-
-## update：
-
-- for the **tree** chapter is so important, we will supply more codes for the occasion in the advanced data structure. so there will not be ant codes for **tree**
-- 22/5/28 the END
